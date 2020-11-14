@@ -5,6 +5,9 @@ import Typography from "@material-ui/core/Typography";
 import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { Link } from "react-router-dom";
+import FacebookIcon from "@material-ui/icons/Facebook";
+import LinkedInIcon from "@material-ui/icons/LinkedIn";
+import GitHubIcon from "@material-ui/icons/GitHub";
 
 import axios from "axios";
 import { proxy } from "../../proxy";
@@ -22,6 +25,19 @@ const useStyles = makeStyles((theme) => ({
     //   width: 500,
     // },
   },
+  socialIcon: {
+    display: "flex",
+    justifyContent: "space-between",
+    paddingBottom: 20,
+    paddingTop: 20,
+    paddingLeft: 100,
+    paddingRight: 100,
+  },
+  linkColor: {
+    color: "blue",
+    hoverColor: "red",
+    textDecoration: "none",
+  },
 }));
 
 export default function Register() {
@@ -32,6 +48,7 @@ export default function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [phone, setPhone] = useState("");
 
   const allFieldFilled = () => {
     if (name === " " || email === " " || password === " ") {
@@ -51,6 +68,7 @@ export default function Register() {
         name: name,
         email: email,
         password: password,
+        phone: phone,
       };
       axios.post(`${proxy}/api/v1/user/signup`, insertData).then((res) => {
         alert("Registration successfully");
@@ -92,8 +110,50 @@ export default function Register() {
               }
         }
       >
-        <h2 align="center">Book Register</h2>
-        <br />
+        <Typography variant="h4" style={{ textAlign: "center" }}>
+          Sign Up / Register
+        </Typography>
+        <Typography
+          variant="subtitle2"
+          style={{
+            textAlign: "center",
+            marginTop: "2%",
+            fontSize: "1rem",
+            fontWeight: "300",
+          }}
+        >
+          with
+        </Typography>
+        <div className={classes.socialIcon}>
+          <FacebookIcon
+            style={{
+              height: "50px",
+              width: "50px",
+              // backgroundColor: "#003399",
+              cursor: "pointer",
+              borderRadius: "50%",
+              //   display: "inline-block"
+            }}
+          />
+          <LinkedInIcon
+            style={{
+              height: "50px",
+              width: "50px",
+              // backgroundColor: "#0099ff",
+              cursor: "pointer",
+              borderRadius: "50%",
+            }}
+          />
+          <GitHubIcon
+            style={{
+              height: "50px",
+              width: "50px",
+              //   backgroundColor: "blue",
+              cursor: "pointer",
+              borderRadius: "50%",
+            }}
+          />
+        </div>
 
         <form className={classes.root} noValidate autoComplete="off">
           <TextField
@@ -119,9 +179,20 @@ export default function Register() {
             onChange={(e) => setPassword(e.target.value)}
             fullWidth
           />
+          <TextField
+            id="phone"
+            label="Phone No"
+            value={phone}
+            type="number"
+            onChange={(e) => setPhone(e.target.value)}
+            fullWidth
+          />
+          <br />
           <br />
           <Link to="/login">
-            <Typography>Already have an account? Sign in</Typography>{" "}
+            <Typography style={{ textAlign: "center" }}>
+              Already have an account? Sign in
+            </Typography>{" "}
           </Link>
           <Button
             variant="contained"

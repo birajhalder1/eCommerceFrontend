@@ -11,7 +11,6 @@ import GitHubIcon from "@material-ui/icons/GitHub";
 import axios from "axios";
 import { proxy } from "../../proxy";
 
-
 const useStyles = makeStyles((theme) => ({
   root: {
     // display: "flex",
@@ -117,14 +116,27 @@ export default function Login(props) {
               }
         }
       >
-        <Typography variant="h4">Sign In</Typography>
-      
+        <Typography variant="h4" style={{ textAlign: "center" }}>
+          Sign In
+        </Typography>
+        <Typography
+          variant="subtitle2"
+          style={{
+            textAlign: "center",
+            marginTop: "2%",
+            fontSize: "1rem",
+            fontWeight: "300",
+          }}
+        >
+          with
+        </Typography>
         <div className={classes.socialIcon}>
           <FacebookIcon
             style={{
               height: "50px",
               width: "50px",
-              backgroundColor: "#003399",
+              // backgroundColor: "#003399",
+              cursor: "pointer",
               borderRadius: "50%",
               //   display: "inline-block"
             }}
@@ -133,7 +145,8 @@ export default function Login(props) {
             style={{
               height: "50px",
               width: "50px",
-              backgroundColor: "#0099ff",
+              // backgroundColor: "#0099ff",
+              cursor: "pointer",
               borderRadius: "50%",
             }}
           />
@@ -142,11 +155,11 @@ export default function Login(props) {
               height: "50px",
               width: "50px",
               //   backgroundColor: "blue",
+              cursor: "pointer",
               borderRadius: "50%",
             }}
           />
         </div>
-        <hr />
 
         <form className={classes.root} noValidate autoComplete="off">
           <TextField
