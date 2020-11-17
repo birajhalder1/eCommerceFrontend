@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { TextField, Button } from "@material-ui/core/";
 import Typography from "@material-ui/core/Typography";
@@ -10,6 +10,9 @@ import LinkedInIcon from "@material-ui/icons/LinkedIn";
 import GitHubIcon from "@material-ui/icons/GitHub";
 import axios from "axios";
 import { proxy } from "../../proxy";
+import { useDispatch, useSelector } from "react-redux";
+import { setCurrentUser } from "../../actions/authActions";
+import { getRedirectUrl } from "../../utils/helperFunctions";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -46,6 +49,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Login(props) {
+  let auth = useSelector((state) => state.auth);
+
+  const dispatch = useDispatch();
+
   const classes = useStyles();
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.down("sm"));
@@ -75,8 +82,9 @@ export default function Login(props) {
       axios.post(`${proxy}/api/v1/user/signin`, data).then((res) => {
         if (res.data.success === true && res.data.token !== "") {
           handleClear();
-          alert("Logged in successfully");
-          localStorage.setItem("Token", res.data.token);
+          alert("!!Congratulations Login Successfull");
+          // localStorage.setItem("Token", res.data.token);
+          dispatch(setCurrentUser(res.data.token));
           props.history.push("/email_verified");
         } else {
           alert("Incurrect email or password");
@@ -86,6 +94,13 @@ export default function Login(props) {
       alert("Please all field insert data");
     }
   };
+
+  useEffect(() => {
+    if (auth.isAuthenticated) {
+      let url = getRedirectUrl(auth);
+      props.history.push("/");
+    }
+  }, [auth.isAuthenticated]);
 
   return (
     <div className={classes.root}>
